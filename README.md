@@ -1,1 +1,1 @@
-# ulp-i2c
+# esp32-ulp-i2c
