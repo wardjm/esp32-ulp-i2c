@@ -31,6 +31,8 @@ WRITE_RTC_REG(REGISTER, FIELD, FIELD_MASK, VALUE) (field is a shift underneath t
 
 Many fields and registers have their own #defines to set the appropriate value. So the field is usually found with an \_S (aka, shift) and the mask with an \_M (aka, mask). Then we can input the value we wish to set.
 
+# Selecting i2c address
+
 We set the i2c slave address using the SENS_I2C_SLAVE_ADDRx register. This amounts to a simple:
 
 WRITE_RTC_REG(SENS_SAR_SLAVE_ADDR1_REG, SENS_I2C_SLAVE_ADDR1_S, SENS_I2C_SLAVE_ADDR1_M, 0x5a);
@@ -40,3 +42,17 @@ on the ulp if the i2c slave we wish to talk to uses address 0x5a. Then we can is
 i2c_rd 0x20, 7, 0, 1
 
 which says read bits 7-0 (1 byte) from sub-address 0x20 from the i2c device whose address is stored in SLAVE_ADDR1 and store it in r0.
+
+# Selecting i2c pins
+
+We must select either 0 or 1 for SDA and SCL. The pins section above tells which pins to use for each selection. The selection is made using the RTC_IO_SAR_I2C_IO_REG register with fields RTC_IO_SAR_I2C_SDA_SEL and RTC_IO_SAR_I2C_SCL_SEL. To select option 1 for both we can do:
+
+WRITE_RTC_REG(RTC_IO_SAR_I2C_IO_REG, RTC_IO_SAR_I2C_SDA_SEL_S, RTC_IO_SAR_I2C_SDA_SEL_M, 1);
+WRITE_RTC_REG(RTC_IO_SAR_I2C_IO_REG, RTC_IO_SAR_I2C_SCL_SEL_S, RTC_IO_SAR_I2C_SCL_SEL_M, 1);
+
+on the ulp or:
+
+SET_PERI_REG_BITS(RTC_IO_SAR_I2C_IO_REG, RTC_IO_SAR_I2C_SDA_SEL, 1, RTC_IO_SAR_I2C_SDA_SEL_S);
+SET_PERI_REG_BITS(RTC_IO_SAR_I2C_IO_REG, RTC_IO_SAR_I2C_SCL_SEL, 1, RTC_IO_SAR_I2C_SCL_SEL_S);
+
+in the main process. Some people say state is lost when migrating down to low power, so this example does everything in both places to illustrate how it could be done from anywhere.
