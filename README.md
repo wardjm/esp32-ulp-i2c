@@ -21,6 +21,8 @@ Selection 1 (used in the checked in example):
 
 Why all the different names for the same thing? I have no idea. Tracking all this down and using the right name in the right spot is what took so long to put together such a small example.
 
+*NOTE: If you have an adafruit feather board, they do not expose these pins, so you cannot do this!*
+
 # Making selections
 
 Much of our register handling is done via macros that can be read in a certain way:
