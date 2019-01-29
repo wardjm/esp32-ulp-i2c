@@ -1,7 +1,7 @@
 # esp32-ulp-i2c
 If you are new to ULP, do yourself a favor and watch https://www.youtube.com/watch?v=-QIcUTBB7Ww to get familiar with the code structure.
 
-What this does is reads a value from an i2c device while in Ultra Low Power Mode (ULP) on an ESP32. The cpu allows for a convenient opcode to read or write from the i2c bus (in roughly 4 cycles). To read, you simply use:
+What this repository does is reads a value from an i2c device while in Ultra Low Power Mode (ULP) on an ESP32. The cpu allows for a convenient opcode to read or write from the i2c bus (in roughly 4 cycles). To read, you simply use:
 
 i2c_rd sub-address, high bit, low bit, slave_selection
 
@@ -58,3 +58,8 @@ SET_PERI_REG_BITS(RTC_IO_SAR_I2C_IO_REG, RTC_IO_SAR_I2C_SDA_SEL, 1, RTC_IO_SAR_I
 SET_PERI_REG_BITS(RTC_IO_SAR_I2C_IO_REG, RTC_IO_SAR_I2C_SCL_SEL, 1, RTC_IO_SAR_I2C_SCL_SEL_S);
 
 in the main process. Some people say state is lost when migrating down to low power, so this example does everything in both places to illustrate how it could be done from anywhere.
+
+# Links
+ESP32 datasheet: https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf
+ESP32 technical reference: https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf
+CCS811 datasheet (in case you wanted to know where the example values come from): https://cdn-shop.adafruit.com/product-files/3566/3566_datasheet.pdf
